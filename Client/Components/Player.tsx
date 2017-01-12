@@ -3,18 +3,31 @@ import LibraryPane from "./LibraryPane";
 import PlaylistPane from "./PlaylistPane";
 import NowPlayingPane from "./NowPlayingPane";
 
-export interface PlayerProps { }
+import Song from "../Models/Song";
+import Playlist from "../Models/Playlist";
+
+export interface PlayerProps {
+    currentlyPlayingSong: Song;
+    currentlyShowingPlaylist: Playlist;
+}
 
 export default class Player extends React.Component<PlayerProps, undefined> {
-    constructor(props?: PlayerProps) {
-        super(props);
-    }
     public render() {
         return (
-            <div>
-                <LibraryPane />
-                <PlaylistPane />
-                <NowPlayingPane />
+            <div className="player">
+                <div className="library">
+                    <h1>Library</h1>
+                    <LibraryPane />
+                </div>
+                <div className="playlist">
+                    <PlaylistPane 
+                        currentlyPlayingSong={this.props.currentlyPlayingSong}
+                        currentlyShowingPlaylist={this.props.currentlyShowingPlaylist} />
+                </div>
+                <div className="nowPlaying">
+                    <NowPlayingPane
+                        currentlyPlayingSong={this.props.currentlyPlayingSong} />
+                </div>
             </div>
         );
     }
