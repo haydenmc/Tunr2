@@ -5,5 +5,5 @@ import { Tunr } from "./Components/Tunr";
 
 ReactDOM.render(
     <Tunr />,
-    document.body
+    document.getElementById("tunr")
 );
