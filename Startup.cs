@@ -51,7 +51,7 @@ namespace Tunr
             {
                 Audience = TokenAudience,
                 Issuer = TokenIssuer,
-                SigningCredentials = new SigningCredentials(key, SecurityAlgorithms.Sha256Digest)
+                SigningCredentials = new SigningCredentials(key, SecurityAlgorithms.RsaSha256Signature)
             };
 
             // Save the token options into an instance so they're accessible to the 
@@ -71,7 +71,14 @@ namespace Tunr
             services.AddEntityFrameworkSqlServer()
                 .AddDbContext<ApplicationDbContext>(options => 
                     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddIdentity<Tunee, TuneeRole>()
+            services.AddIdentity<Tunee, TuneeRole>(options => 
+                {
+                    options.Password.RequireDigit = false;
+                    options.Password.RequiredLength = 5; // TODO: Store in config somewhere.
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = false;
+                })
                 .AddEntityFrameworkStores<ApplicationDbContext, Guid>()
                 .AddDefaultTokenProviders();
             services.AddMvc();
