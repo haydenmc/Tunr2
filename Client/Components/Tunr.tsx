@@ -1,8 +1,11 @@
 import * as React from "react";
 
+import Login from "./Login";
 import Player from "./Player";
+
 import Song from "../Models/Song";
 import Playlist from "../Models/Playlist";
+import User from "../Models/User";
 
 export interface TunrProps {
     username: string;
@@ -10,9 +13,10 @@ export interface TunrProps {
 }
 
 export interface TunrState {
-    currentlyPlayingSong: Song;
+    authenticatedUser?: User;
+    currentlyPlayingSong?: Song;
     currentlyPlayingPlaylist?: Playlist;
-    currentlyShowingPlaylist: Playlist;
+    currentlyShowingPlaylist?: Playlist;
 }
 
 export class Tunr extends React.Component<TunrProps, TunrState> {
@@ -20,6 +24,7 @@ export class Tunr extends React.Component<TunrProps, TunrState> {
     {
         super(props);
         this.state = {
+            authenticatedUser: null,
             currentlyPlayingSong: {
                 title: "Hello Title",
                 artist: "Hello Artist",
@@ -48,7 +53,22 @@ export class Tunr extends React.Component<TunrProps, TunrState> {
             }
         };
     }
+
+    public tryLogin(username: string, password: string): boolean {
+        if (username.length > 0 && password.length > 0) {
+            this.setState({ authenticatedUser: { email: username } })
+            return true;
+        }
+        return false;
+    }
+
     public render() {
+        if (this.state.authenticatedUser == null)
+        {
+            return (
+                <Login loginAction={this.tryLogin.bind(this)} />
+            );
+        }
         return (
             <Player 
                 currentlyPlayingSong={this.state.currentlyPlayingSong}
