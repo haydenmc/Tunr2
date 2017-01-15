@@ -1,9 +1,8 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-
-import { Tunr } from "./Components/Tunr";
+import Tunr from "./Components/Tunr";
 
 ReactDOM.render(
-    <Tunr username="" password="" />,
+    <Tunr />,
     document.getElementById("tunr")
 );

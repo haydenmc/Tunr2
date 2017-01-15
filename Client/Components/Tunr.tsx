@@ -7,10 +7,7 @@ import Song from "../Models/Song";
 import Playlist from "../Models/Playlist";
 import User from "../Models/User";
 
-export interface TunrProps {
-    username: string;
-    password: string;
-}
+export interface TunrProps {}
 
 export interface TunrState {
     authenticatedUser?: User;
@@ -19,7 +16,7 @@ export interface TunrState {
     currentlyShowingPlaylist?: Playlist;
 }
 
-export class Tunr extends React.Component<TunrProps, TunrState> {
+export default class Tunr extends React.Component<TunrProps, TunrState> {
     constructor(props: TunrProps)
     {
         super(props);

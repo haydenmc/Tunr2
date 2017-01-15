@@ -1,3 +1,4 @@
+// var HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
     entry: "./Client/index.tsx",
     output: {
@@ -17,7 +18,7 @@ module.exports = {
         loaders: [
             // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'.
             { test: /\.tsx?$/, loader: "awesome-typescript-loader" },
-            { test: /\.js$/, loader: "file-loader" }
+            { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader?presets[]=es2015&presets[]=react' }
         ],
 
         preLoaders: [
@@ -25,6 +26,13 @@ module.exports = {
             { test: /\.js$/, loader: "source-map-loader" }
         ]
     },
+
+    plugins: [
+        // new HtmlWebpackPlugin({
+        //     template: './Client/index.ejs',
+        //     inject: 'body',
+        // })
+    ],
 
     // When importing a module whose path matches one of the following, just
     // assume a corresponding global variable exists and use that instead.
