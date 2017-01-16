@@ -42,10 +42,8 @@ export default class Login extends React.Component<LoginProps, LoginState> {
             <div className="login">
                 <div className="inner">
                     <form onSubmit={this.submitForm.bind(this)}>
-                        <div className="logo">Tunr</div>
-                        <input type="email" placeholder="Email" value={this.state.email} onChange={this.handleEmailChange.bind(this)} />
-                        <input type="password" placeholder="Password" value={this.state.password} onChange={this.handlePasswordChange.bind(this)} />
-                        <input type="submit" value="Log In" />
+                        <div className="logo noSelect noHighlightCursor">Tunr</div>
+                        <input type="email" placeholder="enter your email" value={this.state.email} onChange={this.handleEmailChange.bind(this)} />
                     </form>
                 </div>
             </div>
