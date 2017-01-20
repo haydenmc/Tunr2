@@ -45,6 +45,26 @@ h1 {
     cursor: default;
 }
 
+@keyframes loader-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(90deg);
+  }
+}
+
+.loader {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  padding: 0;
+  background-color: #FF4A4A;
+  animation-name: loader-spin;
+  animation-duration: 750ms;
+  animation-iteration-count: infinite;
+}
+
 #tunr {
     position: absolute;
     top: 0;

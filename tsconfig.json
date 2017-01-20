@@ -6,6 +6,10 @@
         "module": "commonjs",
         "moduleResolution": "node",
         "target": "es5",
+        "lib": [
+            "es2016",
+            "dom"
+        ],
         "jsx": "react"
     },
     "include": [

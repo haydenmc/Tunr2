@@ -1,4 +1,6 @@
 import * as React from "react";
+import { connect } from "react-redux";
+import { Dispatch } from 'redux';
 
 import Login from "./Login";
 import Player from "./Player";
@@ -6,70 +8,34 @@ import Player from "./Player";
 import Song from "../Models/Song";
 import Playlist from "../Models/Playlist";
 import User from "../Models/User";
+import ApplicationState from "../Models/ApplicationState";
+import { login } from "../Data/Actions";
 
-export interface TunrProps {}
-
-export interface TunrState {
-    authenticatedUser?: User;
-    currentlyPlayingSong?: Song;
-    currentlyPlayingPlaylist?: Playlist;
-    currentlyShowingPlaylist?: Playlist;
+export interface TunrProps {
+    loginProcessing: boolean;
+    userName: string;
+    dispatch: Dispatch<{}>;
 }
 
-export default class Tunr extends React.Component<TunrProps, TunrState> {
-    constructor(props: TunrProps)
-    {
+class Tunr extends React.Component<TunrProps, undefined> {
+    constructor(props: TunrProps) {
         super(props);
-        this.state = {
-            authenticatedUser: null,
-            currentlyPlayingSong: {
-                title: "Hello Title",
-                artist: "Hello Artist",
-                album: "Hello Album"
-            },
-            currentlyShowingPlaylist: {
-                title: "My Playlist",
-                items: [
-                    {
-                        song: {
-                            title: "Song 1",
-                            artist: "Artist 1",
-                            album: "Album 1"
-                        },
-                        order: 0
-                    },
-                    {
-                        song: {
-                            title: "Song 2",
-                            artist: "Artist 2",
-                            album: "Album 2"
-                        },
-                        order: 1
-                    }
-                ]
-            }
-        };
-    }
-
-    public tryLogin(username: string, password: string): boolean {
-        if (username.length > 0 && password.length > 0) {
-            this.setState({ authenticatedUser: { email: username } })
-            return true;
-        }
-        return false;
     }
 
     public render() {
-        if (this.state.authenticatedUser == null)
-        {
-            return (
-                <Login loginAction={this.tryLogin.bind(this)} />
-            );
-        }
         return (
-            <Player 
-                currentlyPlayingSong={this.state.currentlyPlayingSong}
-                currentlyShowingPlaylist={this.state.currentlyShowingPlaylist} />
+            <div>
+                <h1>{this.props.loginProcessing}</h1>
+                <h1>{this.props.userName}</h1>
+                <Login loginAction={(username: string, password: string) => login(username, password)(this.props.dispatch)} />
+            </div>
         );
     }
 }
+
+const mapStateToProps = (state: ApplicationState) => ({
+    loginProcessing: state.loginProcessing,
+    userName: state.userName
+} as TunrProps);
+
+export default connect(mapStateToProps)(Tunr);
