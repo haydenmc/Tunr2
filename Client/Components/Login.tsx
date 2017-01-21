@@ -3,12 +3,12 @@ import { connect } from "react-redux";
 
 interface LoginProps {
     loginAction: (user: string, pass: string) => void;
+    isProcessing: boolean;
 }
 
 interface LoginState {
     email?: string;
     password?: string;
-    showLoader?: boolean;
 }
 
 export default class Login extends React.Component<LoginProps, LoginState> {
@@ -16,8 +16,7 @@ export default class Login extends React.Component<LoginProps, LoginState> {
         super();
         this.state = {
             email: "",
-            password: "",
-            showLoader: false
+            password: ""
         };
     }
     public submitForm(e: Event) {
@@ -42,7 +41,6 @@ export default class Login extends React.Component<LoginProps, LoginState> {
 
     public submitEmail(e: Event) {
         e.preventDefault();
-        this.setState({ showLoader: true }); // Show the loader
         // Check if account exists
     }
 
@@ -54,7 +52,7 @@ export default class Login extends React.Component<LoginProps, LoginState> {
                         <div className="logo noSelect noHighlightCursor">Tunr</div>
                         <input type="email" placeholder="enter your email" value={this.state.email} onChange={this.handleEmailChange.bind(this)} />
                     </form>
-                    {this.state.showLoader && <div className="loader"></div>}
+                    {this.props.isProcessing && <div className="loader"></div>}
                 </div>
             </div>
         );

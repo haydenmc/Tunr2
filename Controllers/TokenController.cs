@@ -54,7 +54,7 @@ namespace Tunr.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("")]
-        public async Task<AuthResponse> Post([FromBody] AuthRequest req)
+        public async Task<IActionResult> Post([FromBody] AuthRequest req)
         {
             var user = await userManager.FindByEmailAsync(req.Email);
             if (user != null)
@@ -66,19 +66,16 @@ namespace Tunr.Controllers
                     var claims = await userManager.GetClaimsAsync(user);
                     var identity = new ClaimsIdentity(claims);
                     var token = GetToken(identity, expires);
-                    return new AuthResponse()
+                    return Ok(new AuthResponse()
                     { 
                         Authenticated = true, 
                         EntityId = user.Id, 
                         Token = token, 
                         TokenExpires = expires 
-                    };
+                    });
                 }
             }
-            return new AuthResponse() 
-            { 
-                Authenticated = false
-            };
+            return Unauthorized();
         }
 
         private string GetToken(ClaimsIdentity identity, DateTime? expires)

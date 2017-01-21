@@ -8,11 +8,9 @@ import ApplicationState from "./Models/ApplicationState";
 
 import Tunr from "./Components/Tunr";
 
-const store: Store<ApplicationState> = createStore(reducer, { });
+const initialState = {};
 
-store.subscribe(() => {
-    var state = store.getState();
-})
+const store: Store<ApplicationState> = createStore(reducer, initialState);
 
 ReactDOM.render(
     <Provider store={store}>

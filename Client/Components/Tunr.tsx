@@ -25,9 +25,9 @@ class Tunr extends React.Component<TunrProps, undefined> {
     public render() {
         return (
             <div>
-                <h1>{this.props.loginProcessing}</h1>
-                <h1>{this.props.userName}</h1>
-                <Login loginAction={(username: string, password: string) => login(username, password)(this.props.dispatch)} />
+                <Login 
+                    isProcessing={this.props.loginProcessing}
+                    loginAction={(username: string, password: string) => login(username, password)(this.props.dispatch)} />
             </div>
         );
     }

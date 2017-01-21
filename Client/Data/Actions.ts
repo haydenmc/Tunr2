@@ -22,7 +22,7 @@ export const loginFailure = createAction<string, string>(
 export const loginSuccess = createAction<ApplicationState, string, TokenResponse>(
     LOGIN_SUCCESS,
     (username: string, tokenResponse: TokenResponse) => {
-        return { userName: username };
+        return tokenResponse;
     }
 )
 

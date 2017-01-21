@@ -1,6 +1,7 @@
 import { handleActions, handleAction, Action } from "redux-actions";
 import {combineReducers} from "redux";
 import ApplicationState from "../Models/ApplicationState";
+import TokenResponse from "../Models/Api/TokenResponse";
 
 import {
     LOGIN_REQUEST,
@@ -13,7 +14,7 @@ const initialState: ApplicationState = {
     userName: ""
 };
 
-const actionss = handleActions<ApplicationState>({
+const reducer = handleActions<ApplicationState>({
     [LOGIN_REQUEST]: (state: ApplicationState, action: Action<string>): ApplicationState => {
         return {
             ...state,
@@ -21,6 +22,20 @@ const actionss = handleActions<ApplicationState>({
             userName: action.payload
         };
     },
+    [LOGIN_FAILURE]: (state: ApplicationState, action: Action<string>): ApplicationState => {
+        return {
+            ...state,
+            loginProcessing: false,
+            /* TODO: Report error here */
+        }
+    },
+    [LOGIN_SUCCESS]: (state: ApplicationState, action: Action<TokenResponse>): ApplicationState => {
+        return {
+            ...state,
+            loginProcessing: false,
+            authToken: action.payload
+        }
+    }
 }, initialState);
 
-export default combineReducers({actionss});
+export default reducer;
