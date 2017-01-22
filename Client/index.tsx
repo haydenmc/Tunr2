@@ -4,7 +4,7 @@ import { Store, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import reducer from "./Data/Reducer";
 
-import ApplicationState from "./Models/ApplicationState";
+import ApplicationState from "./Data/ApplicationState";
 
 import Tunr from "./Components/Tunr";
 

@@ -78,6 +78,22 @@ namespace Tunr.Controllers
             return Unauthorized();
         }
 
+        /// <summary>
+        /// GET request to verify that an email address is registered.
+        /// TODO: Security risk?
+        /// </summary>
+        /// <returns>OK if registered - NotFound otherwise</returns>
+        [HttpGet]
+        [Route("CheckEmail/{email}")]
+        public async Task<IActionResult> GetCheckEmailRegistered(string email)
+        {
+            var user = await userManager.FindByEmailAsync(email);
+            if (user != null) {
+                return Ok();
+            }
+            return NotFound();
+        }
+
         private string GetToken(ClaimsIdentity identity, DateTime? expires)
         {
             var handler = new JwtSecurityTokenHandler();

@@ -8,8 +8,8 @@ import Player from "./Player";
 import Song from "../Models/Song";
 import Playlist from "../Models/Playlist";
 import User from "../Models/User";
-import ApplicationState from "../Models/ApplicationState";
-import { login } from "../Data/Actions";
+import ApplicationState from "../Data/ApplicationState";
+import { login } from "../Data/Login/Actions";
 
 export interface TunrProps {
     loginProcessing: boolean;
@@ -25,17 +25,14 @@ class Tunr extends React.Component<TunrProps, undefined> {
     public render() {
         return (
             <div>
-                <Login 
-                    isProcessing={this.props.loginProcessing}
-                    loginAction={(username: string, password: string) => login(username, password)(this.props.dispatch)} />
+                <Login />
             </div>
         );
     }
 }
 
 const mapStateToProps = (state: ApplicationState) => ({
-    loginProcessing: state.loginProcessing,
-    userName: state.userName
+    
 } as TunrProps);
 
 export default connect(mapStateToProps)(Tunr);
