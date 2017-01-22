@@ -1,11 +1,12 @@
 import * as React from "react";
 import { connect, Dispatch } from "react-redux";
 import ApplicationState from "../Data/ApplicationState";
-import { login } from "../Data/Login/Actions";
+import { login, checkEmail } from "../Data/Login/Actions";
 
 interface LoginProps {
     processing: boolean;
     dispatch: Dispatch<{}>;
+    emailFound: boolean;
 }
 
 interface LoginState {
@@ -23,7 +24,11 @@ class Login extends React.Component<LoginProps, LoginState> {
     }
     public submitForm(e: Event) {
         e.preventDefault();
-        login(this.state.email, this.state.password)(this.props.dispatch);
+        if (this.props.emailFound) {
+            login(this.state.email, this.state.password)(this.props.dispatch);
+        } else {
+            checkEmail(this.state.email)(this.props.dispatch);
+        }
     }
 
     public handleEmailChange(e: Event) {
@@ -38,11 +43,6 @@ class Login extends React.Component<LoginProps, LoginState> {
         });
     }
 
-    public submitEmail(e: Event) {
-        e.preventDefault();
-        // Check if account exists
-    }
-
     public render() {
         return (
             <div className="login">
@@ -50,6 +50,7 @@ class Login extends React.Component<LoginProps, LoginState> {
                     <form onSubmit={this.submitForm.bind(this)}>
                         <div className="logo noSelect noHighlightCursor">Tunr</div>
                         <input type="email" placeholder="enter your email" value={this.state.email} onChange={this.handleEmailChange.bind(this)} />
+                        {this.props.emailFound && <input type="password" placeholder="password" value={this.state.password} onChange={this.handlePasswordChange.bind(this)} />}
                     </form>
                     {this.props.processing && <div className="loader"></div>}
                 </div>
@@ -59,7 +60,8 @@ class Login extends React.Component<LoginProps, LoginState> {
 }
 
 const mapStateToProps = (state: ApplicationState) => ({
-    processing: state.login.isProcessing
+    processing: state.login.isProcessing,
+    emailFound: state.login.isEmailFound
 } as LoginProps);
 
 export default connect(mapStateToProps)(Login);

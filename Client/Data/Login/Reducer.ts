@@ -21,6 +21,26 @@ const initialState: ApplicationLoginState = {
 };
 
 export default handleActions<ApplicationLoginState>({
+    [CHECKEMAIL_REQUEST]: (state: ApplicationLoginState) => {
+        return {
+            ...state,
+            isProcessing: true
+        }
+    },
+    [CHECKEMAIL_NOTFOUND]: (state: ApplicationLoginState) => {
+        return {
+            ...state,
+            isProcessing: false,
+            isEmailFound: false
+        }
+    },
+    [CHECKEMAIL_FOUND]: (state: ApplicationLoginState) => {
+        return {
+            ...state,
+            isProcessing: false,
+            isEmailFound: true
+        }
+    },
     [LOGIN_REQUEST]: (state: ApplicationLoginState, action: Action<string>): ApplicationLoginState => {
         return {
             ...state,

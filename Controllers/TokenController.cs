@@ -2,6 +2,7 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -85,6 +86,7 @@ namespace Tunr.Controllers
         /// <returns>OK if registered - NotFound otherwise</returns>
         [HttpGet]
         [Route("CheckEmail/{email}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetCheckEmailRegistered(string email)
         {
             var user = await userManager.FindByEmailAsync(email);
