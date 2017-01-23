@@ -73,6 +73,7 @@ namespace Tunr
                     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddIdentity<Tunee, TuneeRole>(options => 
                 {
+                    options.Cookies.ApplicationCookie.AutomaticChallenge = false;
                     options.Password.RequireDigit = false;
                     options.Password.RequiredLength = 5; // TODO: Store in config somewhere.
                     options.Password.RequireLowercase = false;

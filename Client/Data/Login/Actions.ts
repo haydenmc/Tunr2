@@ -15,6 +15,10 @@ export const CHECKEMAIL_NOTFOUND = "CHECKEMAIL_NOTFOUND";
 export const LOGIN_REQUEST = "LOGIN_REQUEST";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILURE = "LOGIN_FAILURE";
+// Register
+export const REGISTER_REQUEST = "REGISTER_REQUEST";
+export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
+export const REGISTER_FAILURE = "REGISTER_FAILURE";
 
 // --------------------
 // Action creators
@@ -36,14 +40,15 @@ export const checkEmail = (email: string) => {
             var response = await fetch("/Token/CheckEmail/" + encodeURIComponent(email));
             if (!response.ok) {
                 dispatch(checkEmailNotFound());
+            } else {
+                dispatch(checkEmailFound());
             }
-            dispatch(checkEmailFound());
         }
         catch (error) {
             dispatch(checkEmailNotFound());
         }
     }
-}
+};
 
 // Login
 export const loginRequest = createAction<string, string>(
@@ -61,19 +66,19 @@ export const loginSuccess = createAction<TokenResponse, string, TokenResponse>(
     (username: string, tokenResponse: TokenResponse) => {
         return tokenResponse;
     }
-)
+);
 
-export const login = (username: string, password: string) => {
-    return async (dispatch: any) => {
+export const login = (email: string, password: string) => {
+    return async (dispatch: Dispatch<{}>) => {
         try {
-            dispatch(loginRequest(username));
+            dispatch(loginRequest(email));
             var response = await fetch("/Token", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json" 
                 },
                 body: JSON.stringify({
-                    "email": username,
+                    "email": email,
                     "password": password
                 })
             });
@@ -81,10 +86,46 @@ export const login = (username: string, password: string) => {
                 throw new Error(await response.text());
             }
             var result = await response.json();
-            dispatch(loginSuccess(username, result as TokenResponse));
+            dispatch(loginSuccess(email, result as TokenResponse));
         }
         catch (error) {
             dispatch(loginFailure(error.message))
         }
     }
-}
+};
+
+// Register
+export const registerRequest = createAction(REGISTER_REQUEST);
+
+export const registerSuccess = createAction(REGISTER_SUCCESS);
+
+export const registerFailure = createAction<string, string>(
+    REGISTER_FAILURE,
+    (error: string) => error
+);
+
+export const register = (email: string, password: string) => {
+    return async (dispatch: Dispatch<{}>) => {
+        try {
+            dispatch(registerRequest(email));
+            var response = await fetch("/User", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json" 
+                },
+                body: JSON.stringify({
+                    "email": email,
+                    "password": password
+                })
+            });
+            if (!response.ok) {
+                throw new Error(await response.text());
+            }
+            dispatch(registerSuccess());
+            login(email, password)(dispatch);
+        }
+        catch (error) {
+            dispatch(registerFailure(error.message))
+        }
+    }
+};

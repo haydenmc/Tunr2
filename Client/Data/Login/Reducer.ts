@@ -9,12 +9,15 @@ import {
     CHECKEMAIL_NOTFOUND,
     LOGIN_REQUEST,
     LOGIN_FAILURE,
-    LOGIN_SUCCESS
+    LOGIN_SUCCESS,
+    REGISTER_REQUEST,
+    REGISTER_FAILURE,
+    REGISTER_SUCCESS
 } from "./Actions";
 
 const initialState: ApplicationLoginState = {
     email: "",
-    isEmailFound: false,
+    isEmailFound: undefined,
     error: "",
     isProcessing: false,
     token: null
@@ -60,6 +63,25 @@ export default handleActions<ApplicationLoginState>({
             ...state,
             isProcessing: false,
             token: action.payload
+        }
+    },
+    [REGISTER_REQUEST]: (state: ApplicationLoginState): ApplicationLoginState => {
+        return {
+            ...state,
+            isProcessing: true
+        }
+    },
+    [REGISTER_FAILURE]: (state: ApplicationLoginState, action: Action<string>): ApplicationLoginState => {
+        return {
+            ...state,
+            isProcessing: false,
+            error: action.payload
+        }
+    },
+    [REGISTER_SUCCESS]: (state: ApplicationLoginState): ApplicationLoginState => {
+        return {
+            ...state,
+            isProcessing: false
         }
     }
 }, initialState);
