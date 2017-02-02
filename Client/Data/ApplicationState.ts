@@ -5,10 +5,7 @@ import TokenResponse from "../Models/Api/TokenResponse";
 
 export interface ApplicationState {
     login?: ApplicationLoginState;
-    /* Play state */
-    currentlyPlayingSong?: Song;
-    currentlyPlayingPlaylist?: Playlist;
-    currentlyShowingPlaylist?: Playlist;
+    player?: ApplicationPlayerState;
 }
 
 export interface ApplicationLoginState {
@@ -17,6 +14,11 @@ export interface ApplicationLoginState {
     token?: TokenResponse;
     error?: string;
     isProcessing?: boolean;
+}
+
+export interface ApplicationPlayerState {
+    currentlyPlayingSong?: Song;
+    currentlyShowingPlaylist?: Playlist;
 }
 
 export default ApplicationState;

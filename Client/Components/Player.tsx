@@ -1,7 +1,9 @@
 import * as React from "react";
+import { connect } from "react-redux";
 import LibraryPane from "./LibraryPane";
 import PlaylistPane from "./PlaylistPane";
 import NowPlayingPane from "./NowPlayingPane";
+import ApplicationState from "../Data/ApplicationState";
 
 import Song from "../Models/Song";
 import Playlist from "../Models/Playlist";
@@ -11,7 +13,7 @@ export interface PlayerProps {
     currentlyShowingPlaylist: Playlist;
 }
 
-export default class Player extends React.Component<PlayerProps, undefined> {
+class Player extends React.Component<PlayerProps, undefined> {
     public render() {
         return (
             <div className="player">
@@ -32,3 +34,10 @@ export default class Player extends React.Component<PlayerProps, undefined> {
         );
     }
 }
+
+const mapStateToProps = (state: ApplicationState) => ({
+    currentlyPlayingSong: state.player.currentlyPlayingSong,
+    currentlyShowingPlaylist: state.player.currentlyShowingPlaylist
+} as PlayerProps);
+
+export default connect(mapStateToProps)(Player);

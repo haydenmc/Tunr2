@@ -1,5 +1,5 @@
 import { createAction, Action } from "redux-actions";
-import { Dispatch } from 'redux';
+import { Dispatch } from "redux";
 import "whatwg-fetch";
 import ApplicationState from "../../Data/ApplicationState";
 import TokenResponse from "../../Models/Api/TokenResponse";
